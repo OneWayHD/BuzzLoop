@@ -1,0 +1,90 @@
+/* ベース設定 */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f9fafb;
+  color: #111;
+}
+
+header {
+  background-color: #1e293b;
+  color: #fff;
+  padding: 16px;
+  text-align: center;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+/* フィルターボタン */
+.filter-tabs {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-btn {
+  padding: 8px 16px;
+  background-color: #334155;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.filter-btn.active {
+  background-color: #0ea5e9;
+}
+
+/* 投稿フィード */
+#feed-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+  gap: 16px;
+}
+
+/* 投稿カード */
+.post-card {
+  width: 95%;
+  max-width: 500px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+
+.post-card:hover {
+  transform: scale(1.01);
+}
+
+.post-content {
+  padding: 12px;
+  font-size: 0.95rem;
+}
+
+.post-image, .post-video {
+  width: 100%;
+  display: block;
+}
+
+.post-video {
+  max-height: 360px;
+  background: #000;
+}
+
+/* フッター */
+footer {
+  text-align: center;
+  color: #777;
+  font-size: 0.85rem;
+  padding: 20px 0;
+}
