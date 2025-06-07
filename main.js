@@ -1,77 +1,96 @@
-// 仮の投稿データ
+const feedContainer = document.getElementById("feed-container");
+const filterButtons = document.querySelectorAll(".filter-btn");
+let currentFilter = "all";
+
+// 仮投稿データ（画像＆動画）
 const posts = [
   {
+    type: "video",
+    src: "https://www.youtube.com/embed/YQHsXMglC9A",
+    title: "Epic Music Clip",
+    source: "https://www.youtube.com/watch?v=YQHsXMglC9A"
+  },
+  {
     type: "image",
-    src: "https://placekitten.com/600/400",
-    text: "バズり中のネコ #1"
+    src: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=800&q=80",
+    title: "Cute Cat Alert!",
+    source: "https://reddit.com/r/aww"
   },
   {
     type: "video",
-    src: "https://www.w3schools.com/html/mov_bbb.mp4",
-    text: "これはヤバい！急上昇の動画 #2"
+    src: "https://www.youtube.com/embed/9bZkp7q19f0",
+    title: "Classic Viral Hit",
+    source: "https://www.youtube.com/watch?v=9bZkp7q19f0"
   },
   {
     type: "image",
-    src: "https://placekitten.com/500/300",
-    text: "映える投稿が止まらない #3"
-  },
-  {
-    type: "video",
-    src: "https://www.w3schools.com/html/movie.mp4",
-    text: "話題沸騰のショート動画 #4"
-  },
-  {
-    type: "image",
-    src: "https://placekitten.com/480/320",
-    text: "これは可愛すぎる… #5"
+    src: "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=800&q=80",
+    title: "Doggo Vibes",
+    source: "https://reddit.com/r/rarepuppers"
   }
 ];
 
-// 投稿表示関数
-function renderPosts(filterType = "all") {
-  const container = document.getElementById("feed-container");
-  container.innerHTML = "";
+// 投稿の描画
+function renderPosts() {
+  feedContainer.innerHTML = "";
 
-  const filtered = posts.filter(post =>
-    filterType === "all" ? true : post.type === filterType
-  );
+  posts
+    .filter(post => currentFilter === "all" || post.type === currentFilter)
+    .forEach(post => {
+      const card = document.createElement("section");
+      card.className = "post-card";
 
-  filtered.forEach(post => {
-    const card = document.createElement("div");
-    card.className = "post-card";
+      const title = document.createElement("div");
+      title.className = "post-title";
+      title.textContent = post.title;
 
-    if (post.type === "image") {
-      const img = document.createElement("img");
-      img.src = post.src;
-      img.alt = "投稿画像";
-      img.className = "post-image";
-      card.appendChild(img);
-    } else if (post.type === "video") {
-      const video = document.createElement("video");
-      video.src = post.src;
-      video.controls = true;
-      video.className = "post-video";
-      card.appendChild(video);
-    }
+      const media = document.createElement(post.type === "video" ? "iframe" : "img");
+      media.className = "post-media";
+      media.src = post.src;
+      if (post.type === "video") {
+        media.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+        media.allowFullscreen = true;
+      }
+      card.appendChild(title);
+      card.appendChild(media);
 
-    const text = document.createElement("div");
-    text.className = "post-content";
-    text.textContent = post.text;
-    card.appendChild(text);
+      // CTAボタンエリア
+      const actions = document.createElement("div");
+      actions.className = "post-actions";
 
-    container.appendChild(card);
-  });
+      // Like ❤️
+      const like = document.createElement("button");
+      like.className = "like-btn";
+      like.innerHTML = "❤️ <span>0</span>";
+      like.addEventListener("click", () => {
+        const count = like.querySelector("span");
+        count.textContent = parseInt(count.textContent) + 1;
+      });
+
+      // View Source 🔗
+      const source = document.createElement("a");
+      source.className = "source-link";
+      source.href = post.source;
+      source.target = "_blank";
+      source.rel = "noopener noreferrer";
+      source.textContent = "View Source";
+
+      actions.appendChild(like);
+      actions.appendChild(source);
+      card.appendChild(actions);
+
+      feedContainer.appendChild(card);
+    });
 }
 
-// 初期表示
-renderPosts();
-
-// フィルターボタンクリック処理
-document.querySelectorAll(".filter-btn").forEach(btn => {
+// フィルターボタン切替
+filterButtons.forEach(btn => {
   btn.addEventListener("click", () => {
-    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+    filterButtons.forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
-    const type = btn.dataset.type;
-    renderPosts(type);
+    currentFilter = btn.dataset.type;
+    renderPosts();
   });
 });
+
+renderPosts();
