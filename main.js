@@ -37,12 +37,13 @@ function renderPosts() {
   posts
     .filter(post => currentFilter === "all" || post.type === currentFilter)
     .forEach(post => {
-      const card = document.createElement("section");
-      card.className = "post-card";
+      const section = document.createElement("section");
+      section.className = "post";
 
       const title = document.createElement("div");
       title.className = "post-title";
       title.textContent = post.title;
+      section.appendChild(title);
 
       const media = document.createElement(post.type === "video" ? "iframe" : "img");
       media.className = "post-media";
@@ -51,39 +52,30 @@ function renderPosts() {
         media.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
         media.allowFullscreen = true;
       }
-      card.appendChild(title);
-      card.appendChild(media);
+      section.appendChild(media);
 
-      // CTAボタンエリア
-      const actions = document.createElement("div");
-      actions.className = "post-actions";
+      const viewSource = document.createElement("a");
+      viewSource.className = "view-source";
+      viewSource.href = post.source;
+      viewSource.target = "_blank";
+      viewSource.rel = "noopener noreferrer";
+      viewSource.textContent = "View Source";
+      section.appendChild(viewSource);
 
-      // Like ❤️
       const like = document.createElement("button");
       like.className = "like-btn";
-      like.innerHTML = "❤️ <span>0</span>";
+      like.innerHTML = "❤️ <span class='like-count'>0</span>";
       like.addEventListener("click", () => {
-        const count = like.querySelector("span");
+        const count = like.querySelector(".like-count");
         count.textContent = parseInt(count.textContent) + 1;
       });
+      section.appendChild(like);
 
-      // View Source 🔗
-      const source = document.createElement("a");
-      source.className = "source-link";
-      source.href = post.source;
-      source.target = "_blank";
-      source.rel = "noopener noreferrer";
-      source.textContent = "View Source";
-
-      actions.appendChild(like);
-      actions.appendChild(source);
-      card.appendChild(actions);
-
-      feedContainer.appendChild(card);
+      feedContainer.appendChild(section);
     });
 }
 
-// フィルターボタン切替
+// フィルター切り替え
 filterButtons.forEach(btn => {
   btn.addEventListener("click", () => {
     filterButtons.forEach(b => b.classList.remove("active"));

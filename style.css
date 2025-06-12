@@ -6,6 +6,35 @@ body {
   overflow: hidden;
 }
 
+header {
+  text-align: center;
+  padding: 16px;
+  background-color: #111;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.filter-tabs {
+  margin-top: 10px;
+}
+
+.filter-btn {
+  margin: 4px;
+  padding: 6px 12px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.filter-btn.active {
+  background-color: #0ea5e9;
+}
+
 main {
   height: 100vh;
   overflow-y: scroll;
