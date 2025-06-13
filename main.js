@@ -2,25 +2,25 @@ const feedContainer = document.getElementById("feed-container");
 const filterButtons = document.querySelectorAll(".filter-btn");
 let currentFilter = "all";
 
-// YouTube Shorts投稿データ（縦動画限定）
+// ✅ 本物の縦型YouTube Shortsのみ
 const posts = [
   {
     type: "video",
-    src: "https://www.youtube.com/embed/P9R0IuP4dWk",
-    title: "Insane Basketball Trick Shot!",
-    source: "https://www.youtube.com/watch?v=P9R0IuP4dWk"
+    src: "https://www.youtube.com/embed/4-3G6CkRrkI",  // Shorts対応
+    title: "Dancing Duck Goes Viral",
+    source: "https://www.youtube.com/shorts/4-3G6CkRrkI"
   },
   {
     type: "video",
-    src: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-    title: "Classic Viral Comeback",
-    source: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    src: "https://www.youtube.com/embed/gVD43z2nGH8",  // Shorts対応
+    title: "Insane Dog Skateboarding!",
+    source: "https://www.youtube.com/shorts/gVD43z2nGH8"
   },
   {
     type: "video",
-    src: "https://www.youtube.com/embed/lpR_rvW-NZg",
-    title: "Cutest Cat Ever",
-    source: "https://www.youtube.com/watch?v=lpR_rvW-NZg"
+    src: "https://www.youtube.com/embed/wE9d7S2TclA",  // Shorts対応
+    title: "Instant Karma Moment",
+    source: "https://www.youtube.com/shorts/wE9d7S2TclA"
   }
 ];
 
