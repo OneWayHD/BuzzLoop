@@ -2,31 +2,25 @@ const feedContainer = document.getElementById("feed-container");
 const filterButtons = document.querySelectorAll(".filter-btn");
 let currentFilter = "all";
 
-// 仮投稿データ（画像＆動画）
+// YouTube Shorts投稿データ（縦動画限定）
 const posts = [
   {
     type: "video",
-    src: "https://www.youtube.com/embed/YQHsXMglC9A",
-    title: "Epic Music Clip",
-    source: "https://www.youtube.com/watch?v=YQHsXMglC9A"
-  },
-  {
-    type: "image",
-    src: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=800&q=80",
-    title: "Cute Cat Alert!",
-    source: "https://reddit.com/r/aww"
+    src: "https://www.youtube.com/embed/P9R0IuP4dWk",
+    title: "Insane Basketball Trick Shot!",
+    source: "https://www.youtube.com/watch?v=P9R0IuP4dWk"
   },
   {
     type: "video",
-    src: "https://www.youtube.com/embed/9bZkp7q19f0",
-    title: "Classic Viral Hit",
-    source: "https://www.youtube.com/watch?v=9bZkp7q19f0"
+    src: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    title: "Classic Viral Comeback",
+    source: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
   },
   {
-    type: "image",
-    src: "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=800&q=80",
-    title: "Doggo Vibes",
-    source: "https://reddit.com/r/rarepuppers"
+    type: "video",
+    src: "https://www.youtube.com/embed/lpR_rvW-NZg",
+    title: "Cutest Cat Ever",
+    source: "https://www.youtube.com/watch?v=lpR_rvW-NZg"
   }
 ];
 
@@ -45,13 +39,11 @@ function renderPosts() {
       title.textContent = post.title;
       section.appendChild(title);
 
-      const media = document.createElement(post.type === "video" ? "iframe" : "img");
+      const media = document.createElement("iframe");
       media.className = "post-media";
       media.src = post.src;
-      if (post.type === "video") {
-        media.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
-        media.allowFullscreen = true;
-      }
+      media.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+      media.allowFullscreen = true;
       section.appendChild(media);
 
       const viewSource = document.createElement("a");
@@ -73,9 +65,34 @@ function renderPosts() {
 
       feedContainer.appendChild(section);
     });
+
+  setupAutoplay();
 }
 
-// フィルター切り替え
+// 表示中だけ動画再生する処理
+function setupAutoplay() {
+  const videos = document.querySelectorAll("iframe");
+  const observer = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        const iframe = entry.target;
+        iframe.contentWindow.postMessage(
+          JSON.stringify({
+            event: "command",
+            func: entry.isIntersecting ? "playVideo" : "pauseVideo",
+            args: []
+          }),
+          "*"
+        );
+      });
+    },
+    { threshold: 0.5 }
+  );
+
+  videos.forEach(video => observer.observe(video));
+}
+
+// フィルター切替
 filterButtons.forEach(btn => {
   btn.addEventListener("click", () => {
     filterButtons.forEach(b => b.classList.remove("active"));
